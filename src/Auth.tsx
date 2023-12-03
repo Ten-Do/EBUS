@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { Centrifuge } from 'centrifuge'
 import { useKeycloak } from '@react-keycloak/web'
 
-export const Auth = () => {
+export const Auth = ({ children }: { children: ReactNode }) => {
   const { keycloak, initialized } = useKeycloak()
   const [connectionState, setConnectionState] = useState('disconnected')
   const [publishedData, setPublishedData] = useState('')
@@ -14,39 +14,38 @@ export const Auth = () => {
   }
 
   useEffect(() => {
-    if (!initialized || !keycloak.authenticated) {
-      return
-    }
-    const centrifuge = new Centrifuge('wss://chat.e-bus.site/connection/websocket', {
-      token: keycloak.token,
-      getToken: function () {
-        return new Promise((resolve, reject) => {
-          keycloak
-            .updateToken(5)
-            .then(function () {
-              resolve(keycloak.token)
-            })
-            .catch(function (err) {
-              reject(err)
-              keycloak.logout()
-            })
-        })
-      },
-    })
-    setcentrifuge(centrifuge)
-    centrifuge.on('state', function (ctx) {
-      setConnectionState(ctx.newState)
-    })
-    const userChannel = 'dialog#userId,receiverID'
-    const sub = centrifuge.newSubscription(userChannel)
-    sub
-      .on('publication', function (ctx) {
-        setPublishedData(JSON.stringify(ctx.data))
+    if (initialized && keycloak.authenticated) {
+      const centrifuge = new Centrifuge('wss://chat.e-bus.site/connection/websocket', {
+        token: keycloak.token,
+        getToken: function () {
+          return new Promise((resolve, reject) => {
+            keycloak
+              .updateToken(5)
+              .then(function () {
+                resolve(keycloak.token)
+              })
+              .catch(function (err) {
+                reject(err)
+                keycloak.logout()
+              })
+          })
+        },
       })
-      .subscribe()
-    centrifuge.connect()
-    return () => {
-      centrifuge.disconnect()
+      setcentrifuge(centrifuge)
+      centrifuge.on('state', function (ctx) {
+        setConnectionState(ctx.newState)
+      })
+      const userChannel = 'dialog#userId,receiverID'
+      const sub = centrifuge.newSubscription(userChannel)
+      sub
+        .on('publication', function (ctx) {
+          setPublishedData(JSON.stringify(ctx.data))
+        })
+        .subscribe()
+      centrifuge.connect()
+      return () => {
+        centrifuge.disconnect()
+      }
     }
   }, [keycloak, initialized])
 
@@ -56,6 +55,7 @@ export const Auth = () => {
 
   return (
     <div>
+      <div>{children}</div>
       <header>
         <p>
           SSO with Keycloak and Centrifugo &nbsp;

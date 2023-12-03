@@ -1,0 +1,8 @@
+.app {
+  display: flex;
+}
+
+.content {
+  background-color: var(--color-bg-gray);
+  flex: 1;
+}

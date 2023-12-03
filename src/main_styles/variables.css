@@ -2,7 +2,9 @@
   /* COLORS */
   --color-bg: #ffffff;
   --color-fg: #1b2037;
+  --color-bg-gray: #f7f8f9;
   --color-fg-secondary: #999da6;
+  --color-gray-active: #f9fafb;
   --color-primary-blue: #0029ff;
   --color-secondary-blue: #dde2ff;
   --color-border-gray: #d1d5db;
