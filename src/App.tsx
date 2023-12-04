@@ -6,9 +6,9 @@ import { router } from './router/router.js'
 function App() {
   return (
     <>
-      <Auth>
+      {/* <Auth> */}
         <RouterProvider router={router} />
-      </Auth>
+      {/* </Auth> */}
     </>
   )
 }

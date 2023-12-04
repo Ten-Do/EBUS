@@ -23,7 +23,7 @@ export const Map = () => {
   initMap()
   return (
     <>
-      <div id='app' style={{ width: '100vw', height: '80vh', overflow: 'hidden' }}></div>
+      <div id='app' style={{ width: '100%', height: '100%', overflow: 'hidden' }}></div>
     </>
   )
 }
