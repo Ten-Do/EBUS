@@ -109,3 +109,9 @@ label {
 legend {
   display: block;
 }
+
+table,
+th,
+td {
+  border-collapse: collapse;
+}

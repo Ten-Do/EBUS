@@ -22,4 +22,25 @@ p {
   font-size: var(--fs-text);
   font-weight: var(--fw-regular);
 }
+/* SNACKBAR */
+#snackbar {
+  padding: 12px;
+  border-left: var(--radius-primary) solid var(--color-primary-blue);
+  border-radius: var(--radius-primary);
+  max-width: 400px;
+  min-width: 250px;
+  position: fixed;
+  z-index: 10;
+}
 
+#snackbar * {
+  fill: var(--color-primary-blue);
+}
+
+#snackbar.danger {
+  border-left: var(--radius-primary) solid var(--color-red);
+}
+
+#snackbar.danger * {
+  fill: var(--color-red);
+}
