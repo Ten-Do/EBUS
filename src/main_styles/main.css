@@ -21,6 +21,7 @@ h6 {
 p {
   font-size: var(--fs-text);
   font-weight: var(--fw-regular);
+  line-height: 27px;
 }
 /* SNACKBAR */
 #snackbar {

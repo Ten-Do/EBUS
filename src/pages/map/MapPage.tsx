@@ -1,4 +1,3 @@
-// import { Map } from '../../components/map/map.js'
 import { ReactMap } from '../../components/map/Map.jsx'
 
 import { Button } from '../../UI/button/button.js'
@@ -17,8 +16,6 @@ export const MapPage = () => {
         <DropdownField options={['asd', 'qwe', 'zcx', 'dhfg']} name='qwertyj' label='DropDown' />
       </div>
       <div className={styles.map}>
-        {/* <div style={{ height: '100%', backgroundColor: 'black' }}></div> */}
-        {/* <Map /> */}
         <ReactMap />
       </div>
     </div>
