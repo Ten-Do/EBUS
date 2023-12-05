@@ -19,7 +19,7 @@ class HttpClient {
     }
   }
 
-  private async _handleResponse(response: Response): Promise<{ data: any; status: number }> {
+  private async _handleResponse(response: Response): Promise<any> {
     const data = await response.json()
 
     if (response.ok) {

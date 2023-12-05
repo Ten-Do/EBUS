@@ -11,11 +11,7 @@ export const DriversPage = () => {
   useEffect(() => {
     $api
       .get('drivers/', keycloak.token!)
-      .then(data => data.data.drivers as IDriver[])
-      .then(data => {
-        console.log(data)
-        return data
-      })
+      .then(data => data.drivers as IDriver[])
       .then(data => setDrivers(data))
   }, [])
   return (
