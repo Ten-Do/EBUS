@@ -1,6 +1,7 @@
 import { useState, useEffect, ReactNode } from 'react'
 import { Centrifuge } from 'centrifuge'
 import { useKeycloak } from '@react-keycloak/web'
+import { Button } from './UI/button/button.js'
 
 export const Auth = ({ children }: { children: ReactNode }) => {
   const { keycloak, initialized } = useKeycloak()
@@ -55,15 +56,28 @@ export const Auth = ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
-      <div>{children}</div>
-      <header>
-        <p>
-          SSO with Keycloak and Centrifugo &nbsp;
-          <span className={'connectionState ' + connectionState}>
-            {stateToEmoji[connectionState]}
-          </span>
-        </p>
-        {keycloak.authenticated ? (
+      {keycloak.authenticated ? (
+        <div>{children}</div>
+      ) : (
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transform: 'scale(4)',
+          }}
+        >
+          <Button bg='primary' clickHandler={() => keycloak.login()}>
+            Login
+          </Button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/*
           <div>
             <p>
               Logged in as{' '}
@@ -72,16 +86,5 @@ export const Auth = ({ children }: { children: ReactNode }) => {
                 keycloak.tokenParsed?.sub}
             </p>
             {publishedData && <pre>{publishedData}</pre>}
-            <button type='button' onClick={() => keycloak.logout()}>
-              Logout
-            </button>
           </div>
-        ) : (
-          <button type='button' onClick={() => keycloak.login()}>
-            Login
-          </button>
-        )}
-      </header>
-    </div>
-  )
-}
+*/

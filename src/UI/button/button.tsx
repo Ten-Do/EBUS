@@ -4,8 +4,13 @@ import styles from './styles.module.css'
 interface ButtonProps {
   bg?: 'primary' | 'secondary' | 'outlined'
   children: ReactNode
+  clickHandler: () => void
 }
 
-export const Button = ({ children, bg = 'secondary' }: ButtonProps) => {
-  return <button className={styles.button + ' ' + styles[bg]}>{children}</button>
+export const Button = ({ children, bg = 'secondary', clickHandler = () => {} }: ButtonProps) => {
+  return (
+    <button className={styles.button + ' ' + styles[bg]} onClick={clickHandler}>
+      {children}
+    </button>
+  )
 }
