@@ -24,6 +24,14 @@
   flex: 1;
 }
 
+.col_fluid2 {
+  flex: 2;
+}
+
+.col_fluid3 {
+  flex: 3;
+}
+
 .col_fixed {
   width: 103px;
   text-align: center;

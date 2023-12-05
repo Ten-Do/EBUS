@@ -1,4 +1,4 @@
-import { Table } from '../../components/table/Table.js'
+import { Table } from '../../components/table/BusTable.js'
 import { Actions } from '../../components/tableActions/Actions.js'
 
 export const BusesPage = () => {
