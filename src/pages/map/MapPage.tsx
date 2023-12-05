@@ -1,4 +1,5 @@
-import { ReactMap } from '../../components/map/Map.jsx'
+// import { ReactMap } from '../../componesnts/map/Map.jsx'
+import Map from '../../components/map2gis/Map.js'
 
 import { Button } from '../../UI/button/button.js'
 import { DropdownField } from '../../UI/input/DropdownField.js'
@@ -16,7 +17,8 @@ export const MapPage = () => {
         <DropdownField options={['asd', 'qwe', 'zcx', 'dhfg']} name='qwertyj' label='DropDown' />
       </div>
       <div className={styles.map}>
-        <ReactMap />
+        {/* <ReactMap /> */}
+        <Map />
       </div>
     </div>
   )
