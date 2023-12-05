@@ -8,11 +8,6 @@ export const Auth = ({ children }: { children: ReactNode }) => {
   const [connectionState, setConnectionState] = useState('disconnected')
   const [publishedData, setPublishedData] = useState('')
   const [centrifugeState, setcentrifuge] = useState()
-  const stateToEmoji = {
-    disconnected: '🔴',
-    connecting: '🟠',
-    connected: '🟢',
-  }
 
   useEffect(() => {
     if (initialized && keycloak.authenticated) {
@@ -55,9 +50,9 @@ export const Auth = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div>
+    <div style={{ height: '100%' }}>
       {keycloak.authenticated ? (
-        <div>{children}</div>
+        <div style={{ height: '100%' }}>{children}</div>
       ) : (
         <div
           style={{

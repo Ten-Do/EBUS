@@ -1,36 +1,8 @@
 'use client'
 
-import { redirect } from 'next/navigation'
-import { baseHeaders } from './baseHeaders'
-import { API_ENDPOINTS } from './endPoint'
+import { baseHeaders } from './baseHeaders.js'
 
-const API = process.env.SERVER_API || 'http://localhost:5000/api'
-
-const authFetch = async (url: string, config: RequestInit = {}): Promise<Response> => {
-  // request interceptor
-  config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-
-  // request
-  let response = await fetch(url, config)
-
-  // response interceptor
-  if (!response.ok && response.status === 401) {
-    const refreshResponse = await fetch(API + API_ENDPOINTS.refresh, {
-      credentials: 'include',
-      headers: baseHeaders,
-    })
-
-    if (!refreshResponse.ok && response.status === 401) redirect('/logreg/login')
-    const { accessToken } = await refreshResponse.json()
-    if (!accessToken) redirect('/logReg/login')
-    localStorage.setItem('accessToken', accessToken)
-
-    config.headers = { ...config.headers, Authorization: `Bearer ${accessToken}` }
-    return fetch(url, config)
-  }
-
-  return response
-}
+const API = 'https://bus.e-bus.site/'
 
 class HttpClient {
   private baseURL: string
@@ -62,24 +34,26 @@ class HttpClient {
     }
   }
 
-  async get(url: string, headers?: HeadersInit) {
-    const response = await authFetch(this.baseURL + url, {
+  async get(url: string, Authorization: string, headers?: HeadersInit) {
+    const response = await fetch(this.baseURL + url, {
       method: 'GET',
       headers: {
         ...this.baseHeaders,
         ...headers,
+        Authorization: 'Bearer ' + Authorization,
       },
     })
 
     return await this._handleResponse(response)
   }
 
-  async post(url: string, data: any, headers?: HeadersInit) {
-    const response = await authFetch(this.baseURL + url, {
+  async post(url: string, Authorization: string, data: any, headers?: HeadersInit) {
+    const response = await fetch(this.baseURL + url, {
       method: 'POST',
       headers: {
         ...this.baseHeaders,
         ...headers,
+        Authorization: 'Bearer ' + Authorization,
       },
       body: JSON.stringify(data),
       // body: data
@@ -88,12 +62,13 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async put(url: string, data: any, headers?: HeadersInit) {
-    const response = await authFetch(this.baseURL + url, {
+  async put(url: string, Authorization: string, data: any, headers?: HeadersInit) {
+    const response = await fetch(this.baseURL + url, {
       method: 'PUT',
       headers: {
         ...this.baseHeaders,
         ...headers,
+        Authorization: 'Bearer ' + Authorization,
       },
       body: JSON.stringify(data),
     })
@@ -101,12 +76,13 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async delete(url: string, data?: any, headers?: HeadersInit) {
-    const response = await authFetch(this.baseURL + url, {
+  async delete(url: string, Authorization: string, data?: any, headers?: HeadersInit) {
+    const response = await fetch(this.baseURL + url, {
       method: 'DELETE',
       headers: {
         ...this.baseHeaders,
         ...headers,
+        Authorization: 'Bearer ' + Authorization,
       },
       body: data,
     })
@@ -114,11 +90,12 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async sendForm(url: string, data: FormData, method: string = 'POST') {
-    const response = await authFetch(this.baseURL + url, {
+  async sendForm(url: string, Authorization: string, data: FormData, method: string = 'POST') {
+    const response = await fetch(this.baseURL + url, {
       method,
       headers: {
         ...this.sendFormHeaders,
+        Authorization: 'Bearer ' + Authorization,
       },
       body: data,
     })
