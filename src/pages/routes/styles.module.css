@@ -1,0 +1,12 @@
+.stops {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stop {
+  border-radius: 32px;
+  border: 1px solid var(--color-border-gray);
+  padding: 8px 12px;
+  font-size: 14px;
+}

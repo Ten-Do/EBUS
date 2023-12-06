@@ -17,15 +17,14 @@ export const BusesPage = () => {
   return (
     <div style={{ display: 'flex', gap: '22px', flexDirection: 'column' }}>
       <Actions
+        button_text='Добавить автобус'
         action='bus/'
         formConfig={{
           number: { placeholder: 'Номер автобуса', label: 'Номер автобуса' },
           rouIDt: { options: ['123', '534', '324s', '3ds'], label: 'Маршрут' },
           status: { options: ['Не в работе', 'В работе', 'Зарядка'], label: 'Статус' },
         }}
-      >
-        Добавить автобус
-      </Actions>
+      ></Actions>
       <Table data={buses} />
     </div>
   )

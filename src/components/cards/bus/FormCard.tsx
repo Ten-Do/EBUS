@@ -6,13 +6,16 @@ import { DropdownField } from '../../../UI/input/DropdownField.js'
 import { formdata2json } from '../../../utils/formdata2json.js'
 import $api from '../../../http/api.js'
 import { useKeycloak } from '@react-keycloak/web'
+import { ReactNode } from 'react'
 
 export const FormCard = ({
   close,
   float = 'right',
   action,
   config,
+  children,
 }: {
+  children?: ReactNode
   close: () => void
   action: string
   float?: 'left' | 'right'
@@ -73,6 +76,7 @@ export const FormCard = ({
         />
         <DropdownField options={['123', '534', '324s', '3ds']} name='' label='Маршрут' />
         <DropdownField options={['Не в работе', 'В работе', 'Зарядка']} name='' label='Статус' /> */}
+        {children}
       </div>
       <div>
         <Button bg='primary'>Добавить</Button>

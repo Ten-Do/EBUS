@@ -9,8 +9,10 @@ export const Actions = ({
   children,
   formConfig,
   action,
+  button_text,
 }: {
-  children: ReactNode
+  button_text: string
+  children?: ReactNode
   formConfig?: {
     [key: string]: {
       label?: string | undefined
@@ -30,7 +32,7 @@ export const Actions = ({
           close={() => {
             setShowCard(false)
           }}
-        />
+        >{children}</FormCard>
       )}
       <div className={styles.search}>
         <InputField config={{ name: 'search', placeholder: 'Поиск' }} />
@@ -46,7 +48,7 @@ export const Actions = ({
           >
             <div className={styles.addButton}>
               <AddRoundedSVG />
-              <p>{children}</p>
+              <p>{button_text}</p>
             </div>
           </Button>
         )}
