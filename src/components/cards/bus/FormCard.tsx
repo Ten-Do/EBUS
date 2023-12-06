@@ -23,7 +23,7 @@ export const FormCard = ({
     [key: string]: {
       label?: string
       placeholder?: string
-      options?: string[]
+      options?: {id: string, text: string}[]
     }
   }
 }) => {
@@ -58,7 +58,7 @@ export const FormCard = ({
         for (const key in config) {
           json[key] = formData.get(key)
         }
-        $api.post('bus', action, keycloak.token!, json)
+        $api.post('bus', action, keycloak.token!, {...json, routeID: 5})
       }}
       className={styles.card}
     >
@@ -70,12 +70,6 @@ export const FormCard = ({
       </div>
       <div className={styles.body + ' ' + styles.form}>
         {fields}
-        {/* <InputField
-          config={{ name: 'number', placeholder: 'Номер автобуса' }}
-          label='Номер автобуса'
-        />
-        <DropdownField options={['123', '534', '324s', '3ds']} name='' label='Маршрут' />
-        <DropdownField options={['Не в работе', 'В работе', 'Зарядка']} name='' label='Статус' /> */}
         {children}
       </div>
       <div>

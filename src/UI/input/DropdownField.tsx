@@ -5,7 +5,7 @@ export const DropdownField = ({
   name,
   label,
 }: {
-  options: string[]
+  options: {id: string, text: string}[]
   name: string
   label: string
 }) => {
@@ -15,7 +15,7 @@ export const DropdownField = ({
         <label htmlFor={name}>{label}</label>
         <select className={styles.select} id={name} name={name} placeholder={label}>
           {options.map(opt => (
-            <option>{opt}</option>
+            <option value={opt.id}>{opt.text}</option>
           ))}
         </select>
       </div>

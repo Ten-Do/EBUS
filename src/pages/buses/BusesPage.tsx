@@ -4,15 +4,22 @@ import { Table } from '../../components/table/BusTable.js'
 import { Actions } from '../../components/tableActions/Actions.js'
 import $api from '../../http/api.js'
 import { IBus } from '../../types/bus.js'
+import { IRout } from '../../types/rout.js'
 
 export const BusesPage = () => {
   const { keycloak } = useKeycloak()
   const [buses, setBuses] = useState<IBus[]>([])
+  const [routes, setRoutes] = useState<{ text: string; id: string }[]>([])
   useEffect(() => {
-    $api
-      .get('bus', 'bus/', keycloak.token!)
-      .then(data => data.data.buses as IBus[])
-      .then(data => setBuses(data))
+    Promise.all([
+      $api.get('bus', 'bus/', keycloak.token!).then(data => data.data.buses as IBus[]),
+      $api
+        .get('bus', 'route/', keycloak.token!)
+        .then(data => data.data.Routes.map((r: IRout) => ({ text: r.Number, id: r.Id }))),
+    ]).then(data => {
+      setBuses(data[0])
+      setRoutes(data[1])
+    })
   }, [])
   return (
     <div style={{ display: 'flex', gap: '22px', flexDirection: 'column' }}>
@@ -21,8 +28,15 @@ export const BusesPage = () => {
         action='bus/'
         formConfig={{
           number: { placeholder: 'Номер автобуса', label: 'Номер автобуса' },
-          rouIDt: { options: ['123', '534', '324s', '3ds'], label: 'Маршрут' },
-          status: { options: ['Не в работе', 'В работе', 'Зарядка'], label: 'Статус' },
+          routeID: { options: routes, label: 'Маршрут' },
+          status: {
+            options: [
+              { text: 'Не в работе', id: 'Не в работе' },
+              { text: 'В работе', id: 'В работе' },
+              { text: 'Зарядка', id: 'Зарядка' },
+            ],
+            label: 'Статус',
+          },
         }}
       ></Actions>
       <Table data={buses} />

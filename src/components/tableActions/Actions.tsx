@@ -17,7 +17,7 @@ export const Actions = ({
     [key: string]: {
       label?: string | undefined
       placeholder?: string | undefined
-      options?: string[] | undefined
+      options?: { id: string; text: string }[] | undefined
     }
   }
   action?: string
@@ -32,7 +32,9 @@ export const Actions = ({
           close={() => {
             setShowCard(false)
           }}
-        >{children}</FormCard>
+        >
+          {children}
+        </FormCard>
       )}
       <div className={styles.search}>
         <InputField config={{ name: 'search', placeholder: 'Поиск' }} />
