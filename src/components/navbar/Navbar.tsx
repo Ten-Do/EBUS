@@ -25,16 +25,6 @@ export const Navbar = () => {
         </div>
       </div>
       <div className={styles.links_container}>
-        {/* <Link to={PAGES.map}>
-          <div
-            className={
-              styles.link + (location.pathname.startsWith(PAGES.map) ? ' ' + styles.active : '')
-            }
-          >
-            <MapSVG />
-            <p>Карта</p>
-          </div>
-        </Link> */}
         <Link to={PAGES.buses}>
           <div
             className={
@@ -83,6 +73,15 @@ export const Navbar = () => {
           >
             <MenuSVG />
             <p>Админка</p>
+          </div>
+        </Link>
+        <Link to={PAGES.chat}>
+          <div
+            className={
+              styles.link + (location.pathname.startsWith(PAGES.chat) ? ' ' + styles.active : '')
+            }
+          >
+            <p>Чат</p>
           </div>
         </Link>
       </div>

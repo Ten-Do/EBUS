@@ -8,7 +8,7 @@ export const Auth = ({ children }: { children: ReactNode }) => {
   const [connectionState, setConnectionState] = useState('disconnected')
   const [publishedData, setPublishedData] = useState('')
   const [centrifugeState, setcentrifuge] = useState()
-
+  console.log(keycloak.authenticated);
   useEffect(() => {
     if (initialized && keycloak.authenticated) {
       const centrifuge = new Centrifuge('wss://chat.e-bus.site/connection/websocket', {

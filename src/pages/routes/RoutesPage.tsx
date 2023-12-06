@@ -21,7 +21,9 @@ export const RoutesPage = () => {
       clusterer = new Clusterer(mapglInstance, {
         radius: 10,
       })
-      clusterer.on('click', ({ target }) => setStops(curr => [...curr, target.data.coordinates]))
+      // clusterer.on('click', ({ target }) => setStops(curr => [...curr, target.data]))
+      clusterer.on('click', ({ target }) => console.log(target))
+
       fetch('../../../public/bus_stop_points.json')
         .then(res => res.json())
         .then(data => clusterer!.load(data))
@@ -37,7 +39,7 @@ export const RoutesPage = () => {
         action='route/'
         formConfig={{ name: { placeholder: 'Название маршрута', label: 'Название маршрута' } }}
       >
-        <SelectedStops stops={stops} />
+        <SelectedStops stops={stops.map(stop => stop.name)} />
       </Actions>
     </div>
   )
