@@ -16,7 +16,16 @@ export const BusesPage = () => {
   }, [])
   return (
     <div style={{ display: 'flex', gap: '22px', flexDirection: 'column' }}>
-      <Actions>Добавить автобус</Actions>
+      <Actions
+        action='bus/'
+        formConfig={{
+          number: { placeholder: 'Номер автобуса', label: 'Номер автобуса' },
+          rouIDt: { options: ['123', '534', '324s', '3ds'], label: 'Маршрут' },
+          status: { options: ['Не в работе', 'В работе', 'Зарядка'], label: 'Статус' },
+        }}
+      >
+        Добавить автобус
+      </Actions>
       <Table data={buses} />
     </div>
   )

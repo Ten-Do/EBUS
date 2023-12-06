@@ -16,7 +16,7 @@ export const DriversPage = () => {
   }, [])
   return (
     <div style={{ display: 'flex', gap: '22px', flexDirection: 'column' }}>
-      <Actions>Добавить водителя</Actions>
+      {/* <Actions action='drivers/'>Добавить водителя</Actions> */}
       <Table data={drivers} />
     </div>
   )

@@ -4,6 +4,8 @@ import { Button } from '../../../UI/button/button.js'
 import { InputField } from '../../../UI/input/inputField.js'
 import { DropdownField } from '../../../UI/input/DropdownField.js'
 import { formdata2json } from '../../../utils/formdata2json.js'
+import $api from '../../../http/api.js'
+import { useKeycloak } from '@react-keycloak/web'
 
 export const FormCard = ({
   close,
@@ -22,16 +24,24 @@ export const FormCard = ({
     }
   }
 }) => {
+  const { keycloak } = useKeycloak()
+
   const fields = []
   for (const key in config) {
     fields.push(
       config[key].options ? (
+        <DropdownField
+          key={key}
+          options={config[key].options}
+          label={config[key].label}
+          name={key}
+        />
+      ) : (
         <InputField
+          key={key}
           label={config[key].label}
           config={{ name: key, placeholder: config[key].placeholder }}
         />
-      ) : (
-        <DropdownField options={config[key].options} label={config[key].label} name={key} />
       ),
     )
   }
@@ -42,12 +52,10 @@ export const FormCard = ({
         e.preventDefault()
         const formData = new FormData(e.target)
         const json = {}
-        console.log(formData.getAll())
-
         for (const key in config) {
           json[key] = formData.get(key)
         }
-        console.log(json)
+        $api.post(action, keycloak.token!, json)
       }}
       className={styles.card}
     >

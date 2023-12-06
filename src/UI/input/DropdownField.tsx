@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 
 export const DropdownField = ({
-  options,
+  options=[],
   name,
   label,
 }: {

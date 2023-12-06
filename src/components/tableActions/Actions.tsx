@@ -5,18 +5,28 @@ import styles from './styles.module.css'
 import AddRoundedSVG from '../../assets/icons/AddRounded.svg?react'
 import { FormCard } from '../cards/bus/FormCard.js'
 
-export const Actions = ({ children }: { children: ReactNode }) => {
+export const Actions = ({
+  children,
+  formConfig,
+  action,
+}: {
+  children: ReactNode
+  formConfig?: {
+    [key: string]: {
+      label?: string | undefined
+      placeholder?: string | undefined
+      options?: string[] | undefined
+    }
+  }
+  action?: string
+}) => {
   const [showCard, setShowCard] = useState(false)
   return (
     <div className={styles.container}>
-      {showCard && (
+      {action && formConfig && showCard && (
         <FormCard
-        action='bus/'
-          config={{
-            number: { placeholder: 'Номер автобуса', label: 'Номер автобуса' },
-            rouIDt: { options: ['123', '534', '324s', '3ds'], label: 'Маршрут' },
-            status: { options: ['Не в работе', 'В работе', 'Зарядка'], label: 'Статус' },
-          }}
+          action={action}
+          config={formConfig}
           close={() => {
             setShowCard(false)
           }}
@@ -27,17 +37,19 @@ export const Actions = ({ children }: { children: ReactNode }) => {
         <Button bg='primary'>Найти</Button>
       </div>
       <div>
-        <Button
-          bg='primary'
-          clickHandler={() => {
-            setShowCard(true)
-          }}
-        >
-          <div className={styles.addButton}>
-            <AddRoundedSVG />
-            <p>{children}</p>
-          </div>
-        </Button>
+        {action && formConfig && (
+          <Button
+            bg='primary'
+            clickHandler={() => {
+              setShowCard(true)
+            }}
+          >
+            <div className={styles.addButton}>
+              <AddRoundedSVG />
+              <p>{children}</p>
+            </div>
+          </Button>
+        )}
       </div>
     </div>
   )
