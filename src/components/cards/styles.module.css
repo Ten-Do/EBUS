@@ -1,4 +1,6 @@
 .card {
+  position: absolute;
+  top: 40px;
   border-radius: var(--radius-primary);
   background-color: var(--color-bg);
   display: flex;
@@ -6,6 +8,7 @@
   flex-direction: column;
   width: 440px;
   padding: 20px;
+  z-index: 100;
 }
 
 .head {
@@ -66,4 +69,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.form > * {
+  width: 100%;
 }

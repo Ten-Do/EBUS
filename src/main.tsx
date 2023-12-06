@@ -15,8 +15,8 @@ const keycloakClient = new Keycloak({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ReactKeycloakProvider authClient={keycloakClient}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <App />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </ReactKeycloakProvider>,
 )
