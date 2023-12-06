@@ -1,0 +1,19 @@
+.app {
+  display: flex;
+}
+
+.content {
+  position: relative;
+  background-color: var(--color-bg-gray);
+  flex: 1;
+  padding: 24px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.map_container {
+  height: 70vh;
+  border-radius: var(--radius-primary);
+  overflow: hidden;
+  margin-bottom: 24px;
+}

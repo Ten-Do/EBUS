@@ -2,12 +2,14 @@
   /* COLORS */
   --color-bg: #ffffff;
   --color-fg: #1b2037;
-  --color-fg-secondary: #999da6;
+  --color-bg-gray: #f7f8f9;
+  --color-fg-secondary: #6b7280;
+  --color-gray-active: #f9fafb;
   --color-primary-blue: #0029ff;
   --color-secondary-blue: #dde2ff;
   --color-border-gray: #d1d5db;
   --color-active-shadow: #0029ff40;
-  --color-red: #ff0000;
+  --color-red: #f42d2d;
 
   /* SIZES */
   --radius-primary: 8px;
@@ -16,6 +18,7 @@
   /* size */
   --fs-title: 40px;
   --fs-subtitle: 27px;
+  --fs-main-text: 20px;
   --fs-text: 18px;
   --fs-subtext: 12px;
   /* weight */

@@ -4,7 +4,7 @@ import EyeClosed from '../../assets/icons/EyeClosed.svg?react'
 import styles from './styles.module.css'
 
 interface InputFieldProps {
-  label: string
+  label?: string
   error?: string
   config: InputHTMLAttributes<HTMLInputElement>
 }
@@ -23,23 +23,21 @@ const ToggleButton = ({
 export const InputField = ({ config, label, error }: InputFieldProps) => {
   const [state, setState] = useState('password')
   return (
-    <>
-      <div className={styles.input_container + (error ? ' ' + styles.error : '')}>
-        <label htmlFor={config.name}>{label}</label>
-        {config.type === 'password' ? (
-          <>
-            <input placeholder={label} {...config} type={state} id={config.name} />
-            <ToggleButton
-              state={state}
-              toggler={() => setState(curr => (curr === 'password' ? 'text' : 'password'))}
-            />
-          </>
-        ) : (
-          <input placeholder={label} {...config} id={config.name} className={styles.input} />
-        )}
-        {error && <p className={styles.errorMessage}>{error}</p>}
-      </div>
-    </>
+    <div className={styles.input_container + (error ? ' ' + styles.error : '')}>
+      {label && <label htmlFor={config.name}>{label}</label>}
+      {config.type === 'password' ? (
+        <>
+          <input placeholder={label} {...config} type={state} id={config.name} />
+          <ToggleButton
+            state={state}
+            toggler={() => setState(curr => (curr === 'password' ? 'text' : 'password'))}
+          />
+        </>
+      ) : (
+        <input placeholder={label} {...config} id={config.name} className={styles.input} />
+      )}
+      {error && <p className={styles.errorMessage}>{error}</p>}
+    </div>
   )
 }
 // EXAMPLE
