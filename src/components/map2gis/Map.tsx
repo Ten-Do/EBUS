@@ -7,9 +7,8 @@ import { MapglContextProvider } from './MapglContext.js'
 
 function Map() {
   return (
-    <MapglContextProvider>
-      <div>
-        {/* <div className={styles['App-buttons']}>
+    <div>
+      {/* <div className={styles['App-buttons']}>
           <div className={styles['App-button-item']}>
             <ButtonRulerAddPreset />
           </div>
@@ -21,11 +20,10 @@ function Map() {
           </div>
         </div> */}
 
-        <div className={styles['App-map-container']}>
-          <Mapgl />
-        </div>
+      <div className={styles['App-map-container']}>
+        <Mapgl />
       </div>
-    </MapglContextProvider>
+    </div>
   )
 }
 

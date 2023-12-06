@@ -16,7 +16,6 @@ export const BusesPage = () => {
   }, [])
   return (
     <div style={{ display: 'flex', gap: '22px', flexDirection: 'column' }}>
-      <div style={{ backgroundColor: 'white', height: '358px' }}></div>
       <Actions>Добавить автобус</Actions>
       <Table data={buses} />
     </div>

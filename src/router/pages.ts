@@ -1,5 +1,5 @@
 export const PAGES = {
-  map: '/map',
+  // map: '/map',
   buses: '/buses',
   drivers: '/drivers',
   routes: '/routes',

@@ -11,7 +11,7 @@
 }
 
 .map {
-  flex: 1;
+  flex: 60vh;
   border-radius: var(--radius-primary);
   overflow: hidden;
 }

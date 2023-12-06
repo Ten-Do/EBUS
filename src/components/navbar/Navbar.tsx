@@ -3,7 +3,7 @@ import Logo from '../../assets/icons/FullLogoBlack.svg?react'
 import { PAGES } from '../../router/pages.js'
 import styles from './styles.module.css'
 
-import MapSVG from '../../assets/icons/navbar/map.svg?react'
+// import MapSVG from '../../assets/icons/navbar/map.svg?react'
 import BusSVG from '../../assets/icons/navbar/bus.svg?react'
 import UserGroupSVG from '../../assets/icons/navbar/UsersGroupTwoRounded.svg?react'
 import RoutSVG from '../../assets/icons/navbar/rout.svg?react'
@@ -25,7 +25,7 @@ export const Navbar = () => {
         </div>
       </div>
       <div className={styles.links_container}>
-        <Link to={PAGES.map}>
+        {/* <Link to={PAGES.map}>
           <div
             className={
               styles.link + (location.pathname.startsWith(PAGES.map) ? ' ' + styles.active : '')
@@ -34,7 +34,7 @@ export const Navbar = () => {
             <MapSVG />
             <p>Карта</p>
           </div>
-        </Link>
+        </Link> */}
         <Link to={PAGES.buses}>
           <div
             className={

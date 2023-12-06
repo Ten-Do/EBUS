@@ -14,10 +14,10 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
-      {
-        path: PAGES.map,
-        element: <MapPage />,
-      },
+      // {
+      //   path: PAGES.map,
+      //   element: <MapPage />,
+      // },
       {
         path: PAGES.buses,
         element: <BusesPage />,
