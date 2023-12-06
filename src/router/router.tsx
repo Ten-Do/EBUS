@@ -8,16 +8,17 @@ import { SettingsPage } from '../pages/settings/SettingsPage.js'
 import { StopsPage } from '../pages/stops/StopsPage.js'
 import { PAGES } from './pages.js'
 import { RootLayout } from './rootLayout/RootLayout.js'
+import { ChatPage } from '../pages/chat/ChatPage.tsx'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      // {
-      //   path: PAGES.map,
-      //   element: <MapPage />,
-      // },
+      {
+        path: PAGES.chat,
+        element: <ChatPage />,
+      },
       {
         path: PAGES.buses,
         element: <BusesPage />,
