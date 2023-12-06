@@ -8,8 +8,7 @@ export const RoutesPage = () => {
   const [stops, setStops] = useState<
     {
       name: string
-      lat: number
-      lon: number
+      coordinates: number[]
     }[]
   >([])
   const { mapglInstance } = useMapglContext()
@@ -21,8 +20,13 @@ export const RoutesPage = () => {
       clusterer = new Clusterer(mapglInstance, {
         radius: 10,
       })
-      // clusterer.on('click', ({ target }) => setStops(curr => [...curr, target.data]))
-      clusterer.on('click', ({ target }) => console.log(target))
+      clusterer.on('click', ({ target }) =>
+        setStops(curr => [
+          ...curr,
+          { coordinates: target.data.coordinates, name: target.data.userData },
+        ]),
+      )
+      // clusterer.on('click', ({ target }) => console.log(target))
 
       fetch('../../../public/bus_stop_points.json')
         .then(res => res.json())
@@ -34,6 +38,13 @@ export const RoutesPage = () => {
   }, [stops])
   return (
     <div>
+      <FormCard
+          action={action}
+          config={formConfig}
+          close={() => {
+            setShowCard(false)
+          }}
+        >{children}</FormCard>
       <Actions
         button_text='Добавить маршрут'
         action='route/'
