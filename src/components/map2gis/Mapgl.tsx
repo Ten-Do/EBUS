@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { load } from '@2gis/mapgl'
 import { useMapglContext } from './MapglContext.js'
 // import { Clusterer } from '@2gis/mapgl-clusterer'
@@ -9,12 +9,59 @@ import { ControlRotateCounterclockwise } from './ControlRotateConterclockwise.js
 import { MapWrapper } from './MapWrapper.js'
 import { BusMarker } from '../../UI/bus/Bus.js'
 import { HtmlMarker } from '@2gis/mapgl/types/index.js'
+import { CentrifugoContext } from '../../Auth.tsx'
 
 export const MAP_CENTER = [37.623082, 55.75254]
 
 export default function Mapgl() {
+  const centrifuge = useContext(CentrifugoContext);
   const { setMapglContext } = useMapglContext()
-
+  const [map1, setMap] = useState(null);
+  const [buses, setBuses] = useState([]);
+  useEffect(() => {
+    if (centrifuge && map1) {
+      const newSub = centrifuge.newSubscription("geo:public");
+      newSub.on('publication', function (ctx) {
+        setBuses(buses => {
+          const busIndex = buses.findIndex(bus => bus.ID === ctx.data.ID);
+  
+          if (busIndex >= 0) {
+            // Автобус уже существует, обновляем его данные
+            const updatedBuses = [...buses];
+            updatedBuses[busIndex] = {
+              ...updatedBuses[busIndex],
+              Battery: ctx.data.Battery,
+              driverID: ctx.data.DriverID
+            };
+            updatedBuses[busIndex].marker.setCoordinates([ctx.data.Lon, ctx.data.Lat])
+            console.log(updatedBuses[busIndex].marker)
+            return updatedBuses;
+          } else {
+            console.log(ctx.data.Lon, ctx.data.Lat)
+            // Автобус новый, добавляем его в список
+            const newBus = {
+              ID: ctx.data.ID,
+              marker: new mapgl.HtmlMarker(map1, {
+                coordinates: [ctx.data.Lon, ctx.data.Lat],
+                html: BusMarker(ctx.data.ID),
+              }),
+              Battery: ctx.data.Battery,
+              driverID: ctx.data.DriverID
+            };
+            console.log(newBus.marker)
+            return [...buses, newBus];
+          }
+        });
+      });
+      newSub.subscribe();
+  
+      // Функция очистки
+      return () => {
+        newSub.unsubscribe();
+        centrifuge.removeSubscription(newSub);
+      };
+    }
+  }, [centrifuge, map1]);
   useEffect(() => {
     let map: mapgl.Map | undefined = undefined
     let directions: Directions | undefined = undefined
@@ -27,6 +74,7 @@ export default function Mapgl() {
         zoom: 13,
         key: 'a1893935-6834-4445-b97a-3405fb426c5b',
       })
+      setMap(map);
 
       map.on('click', e => console.log(e))
 
@@ -309,10 +357,7 @@ export default function Mapgl() {
       /**
        * Directions plugin
        */
-      htmlMarker = new mapgl.HtmlMarker(map, {
-        coordinates: map.getCenter(),
-        html: BusMarker(234),
-      })
+
       directions = new Directions(map, {
         directionsApiKey: 'rujany4131', // It's just demo key
       })
