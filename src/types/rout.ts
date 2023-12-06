@@ -1,14 +1,10 @@
 export interface IRout {
-  id: number
-  number: string
-  path: string
-  stations: {
-    id: number
-    lat: number
-    lon: number
-    name: string
-    routes: string[]
-  }[]
+    Id: number
+    Lengths: number | null
+    Number: string
+    Path: string
+    Stations: any[]
+    Time: number[]
 }
 
 export interface IRoutData {
