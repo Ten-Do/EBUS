@@ -3,8 +3,11 @@ import CloseSVG from '../../assets/icons/Close.svg?react'
 import { InputField } from '../../UI/input/inputField.js'
 import { Button } from '../../UI/button/button.js'
 import SendSVG from '../../assets/icons/Send.svg?react'
+import { useKeycloak } from '@react-keycloak/web'
+import $api from '../../http/api.ts'
 
 interface ChatProps {
+  id: number
   name: string
   bus: string
   rout: string
@@ -19,7 +22,8 @@ interface ChatProps {
   }[]
 }
 
-export const Chat = ({ name, bus, rout, messages, userId }: ChatProps) => {
+export const Chat = ({id, name, bus, rout, messages, userId }: ChatProps) => {
+  const { keycloak } = useKeycloak();
   return (
     <div className={styles.card}>
       <div className={styles.head}>
@@ -55,7 +59,11 @@ export const Chat = ({ name, bus, rout, messages, userId }: ChatProps) => {
       </div>
       <div className={styles.form}>
         <InputField config={{ name: '', placeholder: 'Текст' }} />
-        <Button bg='primary' clickHandler={() => {}}>
+        <Button bg='primary' clickHandler={() => {
+          $api.post('chats', "chats/"+id+"/",  keycloak.token!, {
+            message: "Привет",
+          })
+        }}>
           <SendSVG />
         </Button>
       </div>
