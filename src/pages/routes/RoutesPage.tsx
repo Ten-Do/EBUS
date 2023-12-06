@@ -7,6 +7,7 @@ import CloseSVG from '../../assets/icons/Close.svg?react'
 import { Button } from '../../UI/button/button.tsx'
 import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
+import { IRout } from '../../types/rout.ts'
 
 export const RoutesPage = () => {
   const [stops, setStops] = useState<
@@ -16,6 +17,18 @@ export const RoutesPage = () => {
     }[]
   >([])
   const { mapglInstance } = useMapglContext()
+  const [routes, setRoutes] = useState<IRout[]>([])
+  useEffect(() => {
+    $api
+      .get('bus', 'route/', keycloak.token!)
+      .then(data => data.data.drivers as IRout[])
+      .then(data => {
+        data.map((route) => {
+          
+        })
+        setRoutes(data)
+      })
+  }, [])
   useEffect(() => {
     let clusterer: Clusterer | undefined = undefined
     if (mapglInstance) {
