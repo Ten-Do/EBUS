@@ -2,7 +2,8 @@
 
 import { baseHeaders } from './baseHeaders.js'
 
-const API = 'https://bus.e-bus.site/'
+const API = (service: 'bus' | 'chats', endpoint: string) =>
+  `https://${service}.e-bus.site/${endpoint}`
 
 class HttpClient {
   private baseURL: string
@@ -34,8 +35,8 @@ class HttpClient {
     }
   }
 
-  async get(url: string, Authorization: string, headers?: HeadersInit) {
-    const response = await fetch(this.baseURL + url, {
+  async get(service: 'bus' | 'chats', url: string, Authorization: string, headers?: HeadersInit) {
+    const response = await fetch(API(service, url), {
       method: 'GET',
       headers: {
         ...this.baseHeaders,
@@ -47,8 +48,14 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async post(url: string, Authorization: string, data: any, headers?: HeadersInit) {
-    const response = await fetch(this.baseURL + url, {
+  async post(
+    service: 'bus' | 'chats',
+    url: string,
+    Authorization: string,
+    data: any,
+    headers?: HeadersInit,
+  ) {
+    const response = await fetch(API(service, url), {
       method: 'POST',
       headers: {
         ...this.baseHeaders,
@@ -62,8 +69,14 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async put(url: string, Authorization: string, data: any, headers?: HeadersInit) {
-    const response = await fetch(this.baseURL + url, {
+  async put(
+    service: 'bus' | 'chats',
+    url: string,
+    Authorization: string,
+    data: any,
+    headers?: HeadersInit,
+  ) {
+    const response = await fetch(API(service, url), {
       method: 'PUT',
       headers: {
         ...this.baseHeaders,
@@ -76,8 +89,14 @@ class HttpClient {
     return await this._handleResponse(response)
   }
 
-  async delete(url: string, Authorization: string, data?: any, headers?: HeadersInit) {
-    const response = await fetch(this.baseURL + url, {
+  async delete(
+    service: 'bus' | 'chats',
+    url: string,
+    Authorization: string,
+    data?: any,
+    headers?: HeadersInit,
+  ) {
+    const response = await fetch(API(service, url), {
       method: 'DELETE',
       headers: {
         ...this.baseHeaders,
@@ -104,6 +123,6 @@ class HttpClient {
   }
 }
 
-const $api = new HttpClient(API, baseHeaders)
+const $api = new HttpClient('API', baseHeaders)
 
 export default $api

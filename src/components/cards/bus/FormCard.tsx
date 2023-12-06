@@ -58,7 +58,7 @@ export const FormCard = ({
         for (const key in config) {
           json[key] = formData.get(key)
         }
-        $api.post(action, keycloak.token!, json)
+        $api.post('bus', action, keycloak.token!, json)
       }}
       className={styles.card}
     >

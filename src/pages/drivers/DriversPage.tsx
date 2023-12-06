@@ -9,7 +9,7 @@ export const DriversPage = () => {
   const [drivers, setDrivers] = useState<IDriver[]>([])
   useEffect(() => {
     $api
-      .get('drivers/', keycloak.token!)
+      .get('bus', 'drivers/', keycloak.token!)
       .then(data => data.data.drivers as IDriver[])
       .then(data => setDrivers(data))
   }, [])

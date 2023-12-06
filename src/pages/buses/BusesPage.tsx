@@ -10,7 +10,7 @@ export const BusesPage = () => {
   const [buses, setBuses] = useState<IBus[]>([])
   useEffect(() => {
     $api
-      .get('bus/', keycloak.token!)
+      .get('bus', 'bus/', keycloak.token!)
       .then(data => data.data.buses as IBus[])
       .then(data => setBuses(data))
   }, [])
