@@ -16,10 +16,10 @@ export const ChatPage = () => {
       $api.get('chats', "chats/",  keycloak.token!).then(data => {
         console.log()
         const chats = data.data.chats;
-        const sub = centrifuge.newSubscription('dialog#'+chats[1].UserID+","+chats[1].ReceiverID);
+        const sub = centrifuge.newSubscription('dialog#'+chats[0].ReceiverID+","+chats[0].UserID);
         sub.on('publication', function(ctx) {
           console.log(ctx.data);
-          setMessages([...messages, {
+          setMessages(curr => [...curr, {
             chatID: 5,
             id: 0,
             message: ctx.data.Message,
@@ -33,7 +33,7 @@ export const ChatPage = () => {
         // data.data.chats.map((chat) => {
     
         // })
-        setChats([...chats,chats[1]])
+        setChats([...chats,chats[0]])
       })
     }
   }, [centrifuge])
@@ -47,7 +47,7 @@ export const ChatPage = () => {
         <Chats chats={chats} />
       </div>
       <div className={styles.chat}>
-        <Chat id={5} name='Dljl LJljj' bus='123423' rout='eqwr' messages={messages} userId='123'/>
+        <Chat id={5} name='Dljl LJljj' bus='123423' rout='eqwr' messages={messages} userId={keycloak.token!}/>
       </div>
     </div> 
   ) 

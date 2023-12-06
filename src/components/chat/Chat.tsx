@@ -5,13 +5,13 @@ import { Button } from '../../UI/button/button.js'
 import SendSVG from '../../assets/icons/Send.svg?react'
 import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
+import {useState} from 'react'
 
 interface ChatProps {
   id: number
   name: string
   bus: string
   rout: string
-  userId: string
   messages: {
     chatID: number
     id: number
@@ -22,8 +22,10 @@ interface ChatProps {
   }[]
 }
 
-export const Chat = ({id, name, bus, rout, messages, userId }: ChatProps) => {
+export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
+  const [val, setVal] = useState("");
   const { keycloak } = useKeycloak();
+  
   return (
     <div className={styles.card}>
       <div className={styles.head}>
@@ -41,7 +43,7 @@ export const Chat = ({id, name, bus, rout, messages, userId }: ChatProps) => {
         {messages.map(message => (
           <div
             className={
-              styles.message_container + (message.senderID == userId ? ' ' + styles.sent : '')
+              styles.message_container + (message.senderID === keycloak.tokenParsed?.sub ? ' ' + styles.sent : '')
             }
           >
             <div className={styles.message}>
@@ -50,19 +52,21 @@ export const Chat = ({id, name, bus, rout, messages, userId }: ChatProps) => {
             </div>
           </div>
         ))}
-        <div className={styles.message_container + ' ' + styles.sent}>
+        {/* <div className={styles.message_container + ' ' + styles.sent}>
           <div className={styles.message}>
             <p>Lorem ipillo.</p>
             <span>15:03</span>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className={styles.form}>
-        <InputField config={{ name: '', placeholder: 'Текст' }} />
+        <InputField config={{ name: '', placeholder: 'Текст', value: val, onChange: ({target}) => {setVal(target.value)} }} />
         <Button bg='primary' clickHandler={() => {
+          if (!val) return;
           $api.post('chats', "chats/"+id+"/",  keycloak.token!, {
-            message: "Привет",
+            message: val,
           })
+          setVal('')
         }}>
           <SendSVG />
         </Button>
