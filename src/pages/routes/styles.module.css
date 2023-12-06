@@ -50,3 +50,9 @@
   margin-right: 11px;
   color: var(--color-fg-secondary);
 }
+
+.placeholder {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}

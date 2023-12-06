@@ -7,6 +7,8 @@ import { Directions } from '@2gis/mapgl-directions'
 import { useControlRotateClockwise } from './useControlRotateClockwise.js'
 import { ControlRotateCounterclockwise } from './ControlRotateConterclockwise.js'
 import { MapWrapper } from './MapWrapper.js'
+import { BusMarker } from '../../UI/bus/Bus.js'
+import { HtmlMarker } from '@2gis/mapgl/types/index.js'
 
 export const MAP_CENTER = [37.623082, 55.75254]
 
@@ -16,6 +18,7 @@ export default function Mapgl() {
   useEffect(() => {
     let map: mapgl.Map | undefined = undefined
     let directions: Directions | undefined = undefined
+    let htmlMarker: HtmlMarker | undefined = undefined
     // let clusterer: Clusterer | undefined = undefined
 
     load().then(mapgl => {
@@ -306,11 +309,21 @@ export default function Mapgl() {
       /**
        * Directions plugin
        */
-
+      htmlMarker = new mapgl.HtmlMarker(map, {
+        coordinates: map.getCenter(),
+        html: BusMarker(234),
+      })
       directions = new Directions(map, {
         directionsApiKey: 'rujany4131', // It's just demo key
       })
-
+      // setInterval(
+      //   () =>
+      //     htmlMarker?.setCoordinates([
+      //       htmlMarker.getCoordinates()[0] + 0.00001,
+      //       htmlMarker.getCoordinates()[1],
+      //     ]),
+      //   10,
+      // )
       directions.carRoute({
         points: [
           [37.623082, 55.75454],
@@ -328,6 +341,7 @@ export default function Mapgl() {
     // Destroy the map, if Map component is going to be unmounted
     return () => {
       directions && directions.clear()
+      htmlMarker && htmlMarker.destroy()
       // clusterer && clusterer.destroy()
       map && map.destroy()
       setMapglContext({ mapglInstance: undefined, mapgl: undefined })

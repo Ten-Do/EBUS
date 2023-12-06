@@ -9,6 +9,7 @@ import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
 import { IRout } from '../../types/rout.ts'
 import { decodePath } from '../../utils/decodeRout.ts'
+import { RouteCard } from '../../components/routeCard/RouteCard.js'
 
 export const RoutesPage = () => {
   const { mapglInstance } = useMapglContext()
@@ -25,7 +26,9 @@ export const RoutesPage = () => {
     $api
       .get('bus', 'route/', keycloak.token!)
       .then(data => data.data)
-      .then(data => { setRoutes(data.Routes); setRoute(data.Routes[1]) })
+      .then(data => {
+        setRoutes(data.Routes)
+      })
   }, [])
   useEffect(() => {
     let clusterer: Clusterer | undefined = undefined
@@ -51,13 +54,13 @@ export const RoutesPage = () => {
   }, [])
 
   useEffect(() => {
-    if (!mapglInstance || !route) return;
+    if (!mapglInstance || !route) return
 
     const polyline = new mapgl.Polyline(mapglInstance, {
-      coordinates: decodePath(routes[1].Path),
+      coordinates: decodePath(route.Path),
       width: 10,
-      color: "#ff0000"
-    });
+      color: '#ff0000',
+    })
     return () => polyline.destroy()
   }, [route])
   return (
@@ -65,17 +68,15 @@ export const RoutesPage = () => {
       <form
         style={{ right: '40px' }}
         onSubmit={e => {
-
           e.preventDefault()
           const formData = new FormData(e.target)
           const json = {
-            number: formData.get('number'), stations: stops.map(stop => (
-              {
-                lat: stop.coordinates[1],
-                lon: stop.coordinates[0],
-                name: stop.name
-              }
-            ))
+            number: formData.get('number'),
+            stations: stops.map(stop => ({
+              lat: stop.coordinates[1],
+              lon: stop.coordinates[0],
+              name: stop.name,
+            })),
           }
           $api.post('bus', 'route/', keycloak.token!, json)
           setStops([])
@@ -84,18 +85,29 @@ export const RoutesPage = () => {
       >
         <div className={styles.head}>
           <p>Добавить маршрут</p>
-          <button onClick={() => { close(); setStops([]) }}>
+          <button
+            onClick={() => {
+              close()
+              setStops([])
+            }}
+          >
             <CloseSVG />
           </button>
         </div>
         <div className={styles.body + ' ' + styles.form}>
-          <InputField config={{ name: 'number', placeholder: 'Номер маршрута' }} label='Номер маршрута' />
+          <InputField
+            config={{ name: 'number', placeholder: 'Номер маршрута' }}
+            label='Номер маршрута'
+          />
           <SelectedStops stops={stops.map(e => e.name)} />
         </div>
         <div>
           <Button bg='primary'>Добавить</Button>
         </div>
       </form>
+      <div className={styles.placeholder}>
+        {routes && routes.map(r => <RouteCard route={r} set={() => setRoute(r)} />)}
+      </div>
     </div>
   )
 }
