@@ -1,4 +1,5 @@
 export const PAGES = {
+  incedents: '/incedents',
   chat: '/chat',
   buses: '/buses',
   drivers: '/drivers',

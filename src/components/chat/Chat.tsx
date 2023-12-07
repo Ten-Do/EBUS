@@ -5,7 +5,7 @@ import { Button } from '../../UI/button/button.js'
 import SendSVG from '../../assets/icons/Send.svg?react'
 import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
-import {useContext, useEffect, useState} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CentrifugoContext } from '../../Auth.tsx'
 
 interface ChatProps {
@@ -25,7 +25,7 @@ interface ChatProps {
   }[]
 }
 
-export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
+export const Chat = ({ id, name, bus, rout, messages }: ChatProps) => {
   const [val, setVal] = useState("");
 
   const { keycloak } = useKeycloak();
@@ -64,18 +64,19 @@ export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
           </div>
         </div> */}
       </div>
-      <div className={styles.form}>
-        <InputField config={{ name: '', placeholder: 'Текст', value: val, onChange: ({target}) => {setVal(target.value)} }} />
-        <Button bg='primary' clickHandler={() => {
-          if (!val) return;
-          $api.post('chats', "chats/"+id+"/",  keycloak.token!, {
-            message: val,
-          })
-          setVal('')
-        }}>
+      <form className={styles.form} onSubmit={(e) => {
+        e.preventDefault()
+        if (!val) return;
+        $api.post('chats', "chats/" + id + "/", keycloak.token!, {
+          message: val,
+        })
+        setVal('')
+      }}>
+        <InputField config={{ name: '', placeholder: 'Текст', value: val, onChange: ({ target }) => { setVal(target.value) } }} />
+        <Button bg='primary'>
           <SendSVG />
         </Button>
-      </div>
+      </form>
     </div>
   )
 }
