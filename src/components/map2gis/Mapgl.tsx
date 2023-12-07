@@ -34,10 +34,8 @@ export default function Mapgl() {
               driverID: ctx.data.DriverID
             };
             updatedBuses[busIndex].marker.setCoordinates([ctx.data.Lon, ctx.data.Lat])
-            console.log(updatedBuses[busIndex].marker)
             return updatedBuses;
           } else {
-            console.log(ctx.data.Lon, ctx.data.Lat)
             // Автобус новый, добавляем его в список
             const newBus = {
               ID: ctx.data.ID,
@@ -48,7 +46,6 @@ export default function Mapgl() {
               Battery: ctx.data.Battery,
               driverID: ctx.data.DriverID
             };
-            console.log(newBus.marker)
             return [...buses, newBus];
           }
         });

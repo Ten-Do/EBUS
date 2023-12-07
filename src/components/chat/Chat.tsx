@@ -5,16 +5,19 @@ import { Button } from '../../UI/button/button.js'
 import SendSVG from '../../assets/icons/Send.svg?react'
 import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
-import {useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
+import { CentrifugoContext } from '../../Auth.tsx'
 
 interface ChatProps {
   id: number
   name: string
   bus: string
   rout: string
+  // ReceiverID: string
+  // UserID: string
   messages: {
-    chatID: number
-    id: number
+    // chatID: number
+    // id: number
     message: string
     senderID: string
     senderName: string
@@ -24,8 +27,10 @@ interface ChatProps {
 
 export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
   const [val, setVal] = useState("");
+
   const { keycloak } = useKeycloak();
-  
+
+
   return (
     <div className={styles.card}>
       <div className={styles.head}>
@@ -40,7 +45,7 @@ export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
         </button>
       </div>
       <div className={styles.body}>
-        {messages.map(message => (
+        {messages[id] ? messages[id].messages.map(message => (
           <div
             className={
               styles.message_container + (message.senderID === keycloak.tokenParsed?.sub ? ' ' + styles.sent : '')
@@ -51,7 +56,7 @@ export const Chat = ({id, name, bus, rout, messages }: ChatProps) => {
               <span>{message.sentAt}</span>
             </div>
           </div>
-        ))}
+        )) : []}
         {/* <div className={styles.message_container + ' ' + styles.sent}>
           <div className={styles.message}>
             <p>Lorem ipillo.</p>
