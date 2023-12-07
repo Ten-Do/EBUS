@@ -8,6 +8,7 @@ import { StopsPage } from '../pages/stops/StopsPage.js'
 import { PAGES } from './pages.js'
 import { RootLayout } from './rootLayout/RootLayout.js'
 import { ChatPage } from '../pages/chat/ChatPage.tsx'
+import { RecoilRoot } from 'recoil'
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PAGES.chat,
-        element: <ChatPage />,
+        element: <RecoilRoot><ChatPage /></RecoilRoot>,
       },
       {
         path: PAGES.buses,
@@ -34,10 +35,10 @@ export const router = createBrowserRouter([
         path: PAGES.stops,
         element: <StopsPage />,
       },
-      {
-        path: PAGES.incedents,
-        element: <IncedentsPage />,
-      },
+      // {
+      //   path: PAGES.incedents,
+      //   element: <IncedentsPage />,
+      // },
       {
         path: PAGES.settings,
         element: <SettingsPage />,

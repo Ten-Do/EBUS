@@ -5,14 +5,15 @@ import $api from '../../http/api.ts'
 import styles from './styles.module.css'
 import { useContext, useEffect, useState } from 'react'
 import { CentrifugoContext } from '../../Auth.tsx'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { ChatsState } from '../../state/messages.tsx'
 export const ChatPage = () => {
   const centrifuge = useContext(CentrifugoContext);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(0);
-  const [receiverID, setReceiverID] = useState("0");
   const [subs, setSubs] = useState([])
   const { keycloak } = useKeycloak();
-  const [messages, setMessages] = useState({});
+  const [messages,setMessages] = useRecoilState(ChatsState);
   // Получение данных чата
   useEffect(() => {
     if (keycloak.token && centrifuge) {
@@ -24,61 +25,55 @@ export const ChatPage = () => {
   }, [keycloak, centrifuge]);
 
   useEffect(() => {
-    if (centrifuge && chats.length > 0 ) {
-      chats.map((chat) => {
+    // This effect will run only once after the chats data is fetched
+    if (chats.length > 0 && centrifuge) {
+      const newSubs = chats.map(chat => {
         const newSub = centrifuge.newSubscription('dialog#' + chat.UserID + "," + chat.ReceiverID);
-        newSub.on('publication', function (ctx) {
-          console.log(ctx.data)
-          if(messages[chat.ID]){
-            const newMessages = messages
-            newMessages[chat.ID].messages = [...newMessages[chat.ID].messages, {
+  
+        newSub.on('publication', (ctx) => {
+          setMessages(prevMessages => {
+            // Creating a deep copy of the previous messages
+            const updatedMessages = JSON.parse(JSON.stringify(prevMessages));
+        
+            // Ensure that the specific chat exists in the messages
+            if (!updatedMessages[chat.ID]) {
+              updatedMessages[chat.ID] = { messages: [] };
+            }
+        
+            // Safely add the new message
+            console.log(ctx.data.SentAt)
+            updatedMessages[chat.ID].messages.push({
               message: ctx.data.Message,
               senderID: ctx.data.SenderID,
               senderName: ctx.data.SenderName,
               sentAt: ctx.data.SentAt,
-            }]
-            console.log(newMessages[chat.ID])
-            setMessages(newMessages)
-          }else{
-            const newMessages = messages
-            newMessages[chat.ID] = {}
-            newMessages[chat.ID].messages = [{
-              message: ctx.data.Message,
-              senderID: ctx.data.SenderID,
-              senderName: ctx.data.SenderName,
-              sentAt: ctx.data.SentAt,
-            }]
-            setMessages(newMessages)
-          }
-          // setMessages(curr => {...curr, {
-          //   // chatID: id,
-          //   // id: 0,
-          //   message: ctx.data.Message,
-          //   senderID: ctx.data.SenderID,
-          //   senderName: ctx.data.SenderName,
-          //   sentAt: ctx.data.SentAt,
-          // }});
+            });
+        
+            return updatedMessages;
+          });
         });
+  
         newSub.subscribe();
-        setSubs(curr => [...curr, newSub])
-      })
+        return newSub;
+      });
+  
+      setSubs(newSubs);
+  
+      // Cleanup function
+      return () => {
+        newSubs.forEach(sub => {
+          sub.unsubscribe();
+          centrifuge.removeSubscription(sub);
+        });
+      };
     }
-  }, [centrifuge, chats]);
-
-  useEffect(() => {
-    return () => {
-      subs.map((sub) => {
-        sub.unsubscribe();
-        centrifuge.removeSubscription(sub)
-      })
-
-    };
-  }, [subs, centrifuge])
+  }, [chats, centrifuge]); // This useEffect will trigger only when `chats` or `centrifuge` changes
+  
 
   return (
     <div className={styles.container}>
       <div className={styles.chats}>
-        <Chats chats={chats} setCurrentChat={setCurrentChat} setReceiverID={setReceiverID}/>
+        <Chats chats={chats} setCurrentChat={setCurrentChat}/>
       </div>
       <div className={styles.chat}>
         {currentChat != 0 ? 
@@ -86,7 +81,7 @@ export const ChatPage = () => {
         name='Dljl LJljj' 
         bus='123423' 
         rout='eqwr' 
-        messages={messages} 
+        // messages={} 
         /> : ""
       }
       </div>
