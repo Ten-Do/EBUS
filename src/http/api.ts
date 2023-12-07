@@ -1,8 +1,8 @@
 'use client'
 
 import { baseHeaders } from './baseHeaders.js'
-
-const API = (service: 'bus' | 'chats', endpoint: string) =>
+type servise_name = 'bus' | 'chats' | 'accident'
+const API = (service: servise_name, endpoint: string) =>
   `https://${service}.e-bus.site/${endpoint}`
 
 class HttpClient {
@@ -35,7 +35,7 @@ class HttpClient {
     }
   }
 
-  async get(service: 'bus' | 'chats', url: string, Authorization: string, headers?: HeadersInit) {
+  async get(service: servise_name, url: string, Authorization: string, headers?: HeadersInit) {
     const response = await fetch(API(service, url), {
       method: 'GET',
       headers: {
@@ -49,7 +49,7 @@ class HttpClient {
   }
 
   async post(
-    service: 'bus' | 'chats',
+    service: servise_name,
     url: string,
     Authorization: string,
     data: any,
@@ -70,7 +70,7 @@ class HttpClient {
   }
 
   async put(
-    service: 'bus' | 'chats',
+    service: servise_name,
     url: string,
     Authorization: string,
     data: any,
@@ -90,7 +90,7 @@ class HttpClient {
   }
 
   async delete(
-    service: 'bus' | 'chats',
+    service: servise_name,
     url: string,
     Authorization: string,
     data?: any,

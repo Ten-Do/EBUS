@@ -65,14 +65,14 @@ export const Navbar = () => {
             <p>Остановки</p>
           </div>
         </Link>
-        <Link to={PAGES.admin}>
+        <Link to={PAGES.incedents}>
           <div
             className={
-              styles.link + (location.pathname.startsWith(PAGES.admin) ? ' ' + styles.active : '')
+              styles.link + (location.pathname.startsWith(PAGES.incedents) ? ' ' + styles.active : '')
             }
           >
             <MenuSVG />
-            <p>Админка</p>
+            <p>Инцеденты</p>
           </div>
         </Link>
         <Link to={PAGES.chat}>
