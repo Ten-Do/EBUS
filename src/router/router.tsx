@@ -8,6 +8,7 @@ import { PAGES } from './pages.js'
 import { RootLayout } from './rootLayout/RootLayout.js'
 import { ChatPage } from '../pages/chat/ChatPage.tsx'
 import { AccidentsPage } from '../pages/accidents/AccidentsPage.tsx'
+import { RecoilRoot } from 'recoil'
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PAGES.chat,
-        element: <ChatPage />,
+        element: <RecoilRoot><ChatPage /></RecoilRoot>,
       },
       {
         path: PAGES.buses,

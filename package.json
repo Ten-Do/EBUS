@@ -18,10 +18,12 @@
     "@react-keycloak/web": "^3.4.0",
     "@tauri-apps/api": "^1.5.1",
     "centrifuge": "^5.0.1",
+    "javascript-time-ago": "^2.5.9",
     "keycloak-js": "^23.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1"
+    "react-router-dom": "^6.20.1",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.6",

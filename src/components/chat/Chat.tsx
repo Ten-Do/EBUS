@@ -7,7 +7,13 @@ import { useKeycloak } from '@react-keycloak/web'
 import $api from '../../http/api.ts'
 import { useContext, useEffect, useState } from 'react'
 import { CentrifugoContext } from '../../Auth.tsx'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import TimeAgo from 'javascript-time-ago'
+import { ChatsState } from '../../state/messages.tsx'
 
+import ru from 'javascript-time-ago/locale/ru'
+
+TimeAgo.addDefaultLocale(ru)
 interface ChatProps {
   id: number
   name: string
@@ -25,11 +31,11 @@ interface ChatProps {
   }[]
 }
 
-export const Chat = ({ id, name, bus, rout, messages }: ChatProps) => {
+export const Chat = ({ id, name, bus, rout }: ChatProps) => {
   const [val, setVal] = useState("");
-
+  const messages = useRecoilValue(ChatsState);
   const { keycloak } = useKeycloak();
-
+  const timeAgo = new TimeAgo('ru-RU')
 
   return (
     <div className={styles.card}>
@@ -45,7 +51,8 @@ export const Chat = ({ id, name, bus, rout, messages }: ChatProps) => {
         </button>
       </div>
       <div className={styles.body}>
-        {messages[id] ? messages[id].messages.map(message => (
+        {messages[id] ? messages[id].messages.map(message => {
+          return(
           <div
             className={
               styles.message_container + (message.senderID === keycloak.tokenParsed?.sub ? ' ' + styles.sent : '')
@@ -53,10 +60,10 @@ export const Chat = ({ id, name, bus, rout, messages }: ChatProps) => {
           >
             <div className={styles.message}>
               <p>{message.message}</p>
-              <span>{message.sentAt}</span>
+              <span>{timeAgo.format(Date.now()- (Date.now() - new Date(Date.parse(message.sentAt))), 'round-minute')}</span>
             </div>
           </div>
-        )) : []}
+)}) : []}
         {/* <div className={styles.message_container + ' ' + styles.sent}>
           <div className={styles.message}>
             <p>Lorem ipillo.</p>
