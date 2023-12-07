@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { IncedentsPage } from '../pages/incedents/IncedentsPage.ts'
 import { BusesPage } from '../pages/buses/BusesPage.js'
 import { DriversPage } from '../pages/drivers/DriversPage.js'
 import { RoutesPage } from '../pages/routes/RoutesPage.js'
@@ -8,6 +7,7 @@ import { StopsPage } from '../pages/stops/StopsPage.js'
 import { PAGES } from './pages.js'
 import { RootLayout } from './rootLayout/RootLayout.js'
 import { ChatPage } from '../pages/chat/ChatPage.tsx'
+import { AccidentsPage } from '../pages/accidents/AccidentsPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: PAGES.incedents,
-        element: <IncedentsPage />,
+        element: <AccidentsPage />,
       },
       {
         path: PAGES.settings,
