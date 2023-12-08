@@ -44,7 +44,7 @@ export const RoutesPage = () => {
       )
       // clusterer.on('click', ({ target }) => console.log(target))
 
-      fetch('../../../public/bus_stop_points.json')
+      fetch('bus_stop_points.json')
         .then(res => res.json())
         .then(data => clusterer!.load(data))
     }
